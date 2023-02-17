@@ -1,19 +1,23 @@
 package cn.e4s0n;
 import android.app.ActivityThread;
 import android.os.Looper;
+import android.util.Slog;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
+
 
 public class Unpacker {
     public static String UNPACK_CONFIG = "/data/local/tmp/e4s0nUPK.config";
     public static int UNPACK_INTERVAL = 10 * 1000;
     public static Thread unpackerThread = null;
+    public static final String TAG = "e4s0nUPK";
 
     public static boolean shouldUnpack() {
         boolean should_unpack = false;
         String processName = ActivityThread.currentProcessName();
         BufferedReader br = null;
+        Slog.d(TAG, "process starting: " + processName);
         try {
             br = new BufferedReader(new FileReader(UNPACK_CONFIG));
             String line;
