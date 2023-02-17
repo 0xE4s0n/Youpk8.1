@@ -178,7 +178,7 @@ BUILD_VERSION_TAGS := $(subst $(space),$(comma),$(sort $(BUILD_VERSION_TAGS)))
 
 # A human-readable string that descibes this build in detail.
 # patch by 0xE4s0n for ro.build.description
-TARGET_PRODUCT := 'walleye'
+TARGET_PRODUCT := walleye
 build_desc := $(TARGET_PRODUCT)-user $(PLATFORM_VERSION) $(BUILD_ID) $(BUILD_NUMBER_FROM_FILE) $(BUILD_VERSION_TAGS)
 #
 $(intermediate_system_build_prop): PRIVATE_BUILD_DESC := $(build_desc)
@@ -192,7 +192,8 @@ ifeq (,$(strip $(BUILD_FINGERPRINT)))
   else
     BF_BUILD_NUMBER := $(BUILD_NUMBER)
   endif
-  BUILD_FINGERPRINT := $(PRODUCT_BRAND)/$(TARGET_PRODUCT)/$(TARGET_DEVICE):$(PLATFORM_VERSION)/$(BUILD_ID)/$(BF_BUILD_NUMBER):$(TARGET_BUILD_VARIANT)/$(BUILD_VERSION_TAGS)
+  # patch by 0xE4s0n for ro.build.fingerprint fingerprint
+  BUILD_FINGERPRINT := $(PRODUCT_BRAND)/$(TARGET_PRODUCT)/$(TARGET_DEVICE):$(PLATFORM_VERSION)/$(BUILD_ID)/$(BF_BUILD_NUMBER):user/$(BUILD_VERSION_TAGS)
 endif
 ifneq ($(words $(BUILD_FINGERPRINT)),1)
   $(error BUILD_FINGERPRINT cannot contain spaces: "$(BUILD_FINGERPRINT)")
@@ -233,7 +234,7 @@ else
   BUILD_DISPLAY_ID := $(build_desc)
 endif
 # patch by 0xE4s0n for ro.build.display.id fingerprint
-BUILD_DISPLAY_ID := $(BUILD_ID) $(BUILD_KEYS)
+BUILD_DISPLAY_ID := $(BUILD_ID)
 #
 
 # Accepts a whitespace separated list of product locales such as
@@ -397,9 +398,10 @@ ifdef property_overrides_split_enabled
 endif  # property_overrides_split_enabled
 endif  # BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE
 # patch by 0xE4s0n for ro.product fingerprint
-PRODUCT_BRAND="google"
-PRODUCT_MODEL="Pixel 2"
-PRODUCT_NAME="walleye"
+$(hide) PRODUCT_BRAND="google" \
+	PRODUCT_MODEL="Pixel 2" \
+	PRODUCT_NAME="walleye" \
+	bash $(VENDOR_BUILDINFO_SH) >> $@
 #
 
 # ----------------------------------------------------------------
