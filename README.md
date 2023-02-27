@@ -6,6 +6,7 @@
 1. 实现指令抽取壳的主动调用还原
 2. 去除aosp中的指纹(build-type,build-tag等)
 3. 去除ro.debuggable，防止检测
+4. 添加`Native`函数的注册日志
 
 # 脚本使用指南
 1. `backup.sh`在更改源码后备份一份原来的代码到`backup`文件夹下
