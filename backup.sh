@@ -1,6 +1,7 @@
 #!/bin/bash
 
-for sfile in `find . \( -path ./.git -o -path ./backup -o -path ./backup.sh -o -path ./overwrite.sh \) \
+for sfile in `find . \( -path ./.git -o -path ./backup \
+    -o -path ./backup.sh -o -path ./overwrite.sh -o -path ./README.md \) \
     -prune -o -type f -print`
 do
     sfile_path=${sfile%/*} # './abc' or '.'
